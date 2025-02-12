@@ -8,3 +8,53 @@
   @tailwind components;
   @tailwind utilities;
 }
+
+.content-materi {
+  @apply text-justify leading-relaxed text-gray-800;
+}
+
+/* Format Heading */
+.content-materi h1 {
+  @apply text-xl font-semibold text-gray-900 mb-4;
+}
+
+.content-materi h2 {
+  @apply text-lg font-medium text-gray-800 mb-3;
+}
+
+.content-materi h3 {
+  @apply text-base font-normal text-gray-700 mb-2;
+}
+
+/* Format Paragraf */
+.content-materi p {
+  @apply mb-4 leading-relaxed;
+}
+
+/* Format List (Bullet & Numbered) */
+.content-materi ul {
+  @apply list-disc pl-6 mb-4;
+}
+
+.content-materi ol {
+  @apply list-decimal pl-6 mb-4;
+}
+
+.content-materi li {
+  @apply mb-2;
+}
+
+/* Format Gambar */
+.content-materi img {
+  @apply max-w-full h-auto rounded-lg shadow-md my-4;
+}
+
+/* Format Blockquote */
+.content-materi blockquote {
+  @apply border-l-4 border-blue-500 pl-4 italic text-gray-600 my-4;
+}
+
+/* Format Link */
+.content-materi a {
+  @apply text-blue-600 hover:underline;
+}

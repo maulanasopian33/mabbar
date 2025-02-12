@@ -6,18 +6,18 @@
                     <img src="/assets/logomabbar.svg" alt="logo mabbar" class="w-full md:w-[80%]">
                 </div>
                 <div class="w-full md:w-[80%]">
-                    <div class="bg-primary-500 w-full text-white p-5 md:py-10 rounded-lg">
+                    <div class="bg-primary-500 w-full text-white p-5 pb-10 md:py-10 rounded-lg">
                         <h1 class="text-2xl font-semibold text-center pb-4">Login</h1>
                         <FloatLabel variant="in">
-                            <InputText id="username" v-model="value2" variant="outlined" class="w-full" />
+                            <InputText id="username" v-model="data.nama" variant="outlined" class="w-full" />
                             <label for="username">Username</label>
                         </FloatLabel>
                         <FloatLabel variant="in" class="mt-4">
-                            <InputText id="password" v-model="value2" variant="outlined" class="w-full" />
+                            <Password :feedback="false"  id="password" v-model="data.password" variant="outlined" class="w-full" />
                             <label for="password">Password</label>
                         </FloatLabel>
                     </div>
-                    <Button @click="goToHome()" label="Login" class="mt-5 w-full text-xl"/>
+                    <Button @click="login()" label="Login" class="mt-5 w-full text-xl"/>
                 </div>
             </div>
         </div>
@@ -25,11 +25,28 @@
 </template>
 
 <script>
+import api from '../libs/axiosInstance.js'
+import { setSession } from '../libs/sessionManager.js'
 export default {
     name: "login",
+    data() {
+        return {
+            data : {},
+        }
+    },
     methods: {
-        goToHome() {
-            this.$router.push('/home')
+        async login(){
+            try {
+                const login = await api.post('api/siswa/login', this.data)
+                if(!login.data.status) throw new Error(login.data.message)
+                this.$toast.add({severity:'success', summary: 'Success', detail: login.data.message, life: 3000});
+                setSession('Token', login.data.data.token, 30);
+                setSession('nama', login.data.data.nama, 30);
+                this.$router.push('/home')
+            } catch (error) {
+                console.log(error)
+                this.$toast.add({severity:'error', summary: 'Error', detail: error.message, life: 3000});
+            }
         }
     },
 }

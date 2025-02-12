@@ -8,7 +8,7 @@ import Skornilai from '../pages/Skornilai.vue';
 import Setoran from '../pages/Setoran.vue';
 
 import guruAuth from '../middleware/guruAuth';
-
+import siswaAuth from '../middleware/siswaAuth';
 // guru
 import loginGuru from '../pages/guru/login.vue';
 import registerGuru from '../pages/guru/register.vue';
@@ -17,6 +17,8 @@ import materiGuru from '../pages/guru/materi.vue';
 import tambahmateri from '../pages/guru/tambahmateri.vue';
 import Editmateri from '../pages/guru/editmateri.vue';
 import Siswa from '../pages/guru/siswa.vue';
+import ListMateri from '../pages/listMateri.vue';
+import listSetoran from '../pages/guru/setoran.vue';
 
 const routes = [
   {
@@ -32,29 +34,57 @@ const routes = [
   {
     path: '/home',
     name: 'Home',
-    component: home
+    component: home,
+    meta: {
+      middleware: [siswaAuth]
+    }
   },
   {
     path: '/belajar',
     name: 'ListBelajar',
-    component: listBelajar
+    component: listBelajar,
+    meta: {
+      middleware: [siswaAuth]
+    }
   },
   {
-    path: '/materi',
+    path: '/belajar/:id',
+    name: 'ListMateri',
+    component: ListMateri,
+    meta: {
+      middleware: [siswaAuth]
+    }
+  },
+  {
+    path: '/materi/:id',
     name: 'Materi',
-    component: materi
+    component: materi,
+    meta: {
+      middleware: [siswaAuth]
+    }
   },
   {
     path: '/skornilai',
     name: 'Skor Nilai',
-    component: Skornilai
+    component: Skornilai,
+    meta: {
+      middleware: [siswaAuth]
+    }
   },
   {
     path: '/setoran',
     name: 'Setoran',
-    component: Setoran
+    component: Setoran,
+    meta: {
+      middleware: [siswaAuth]
+    }
   },
   // guru
+  {
+    path: '/guru',
+    name: 'Guru',
+    redirect: '/guru/dashboard'
+  },
   {
     path: '/guru/login',
     name: 'Login Guru',
@@ -104,6 +134,14 @@ const routes = [
     path: '/guru/siswa',
     name: 'siswa',
     component: Siswa,
+    meta: {
+      middleware: [guruAuth]
+    }
+  },
+  {
+    path: '/guru/setoran',
+    name: 'setoran',
+    component: listSetoran,
     meta: {
       middleware: [guruAuth]
     }

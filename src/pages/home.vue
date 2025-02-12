@@ -1,10 +1,10 @@
 <template>
-     <div class="bg-[#c7e1ff] w-screen min-h-screen">
+     <div class="bg-[#c7e1ff] w-screen h-screen">
         <div class="bg-[url('/assets/bg.svg')] w-full h-full p-6 flex flex-col justify-center items-center">
             <div class="md:w-[60%] h-full">
                 <div class="mt-10">
                     <h1 class="text-2xl font-bold text-left p-0">Selamat Datang</h1>
-                    <h2 class="text-xl text-left p-0">Nuraeni</h2>
+                    <h2 class="text-xl text-left p-0 uppercase">{{ nama }}</h2>
                 </div>
                 <div class="grid grid-cols-2 gap-5 mt-10">
                     <div @click="goToBelajar()" class="bg-primary-500 hover:bg-primary-200 w-full text-white p-5 md:py-10 rounded-lg flex flex-col justify-center items-center">
@@ -33,8 +33,14 @@
     </div>
 </template>
 <script>
+import { getSession } from '../libs/sessionManager'
 export default {
     name: "home",
+    data() {
+        return {
+            nama : getSession('nama')
+        }
+    },
     methods: {
         goToBelajar(){
             this.$router.push('/belajar')
