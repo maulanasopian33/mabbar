@@ -19,6 +19,7 @@ import Editmateri from '../pages/guru/editmateri.vue';
 import Siswa from '../pages/guru/siswa.vue';
 import ListMateri from '../pages/listMateri.vue';
 import listSetoran from '../pages/guru/setoran.vue';
+import ItemSetoran from '../pages/guru/itemSetoran.vue';
 
 const routes = [
   {
@@ -142,6 +143,14 @@ const routes = [
     path: '/guru/setoran',
     name: 'setoran',
     component: listSetoran,
+    meta: {
+      middleware: [guruAuth]
+    }
+  },
+  {
+    path: '/guru/setoran/:id',
+    name: 'item setoran',
+    component: ItemSetoran,
     meta: {
       middleware: [guruAuth]
     }

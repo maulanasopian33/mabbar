@@ -3,12 +3,12 @@
         <Dialog v-model:visible="dialAdd" modal header="Tambahkan Setoran" :style="{ width: '25rem' }">
             <span class="text-surface-500 dark:text-surface-400 block mb-8">Silahkan tambahkan data setoran</span>
             <div class="flex items-center gap-4 mb-4">
-                <label for="tema" class="font-semibold w-24">Tema</label>
-                <InputText v-model="dataSetoran.tema" id="tema" class="flex-auto" autocomplete="off" />
+                <label for="arab" class="font-semibold w-24">Arab</label>
+                <Textarea rows="2" id="arab" v-model="dataSetoran.arab" class="flex-auto text-right" autocomplete="off" />
             </div>
             <div class="flex gap-4 mb-8">
-                <label for="deskripsi" class="font-semibold w-24">Deskripsi</label>
-                <Textarea rows="5" id="deskripsi" v-model="dataSetoran.deskripsi" class="flex-auto" autocomplete="off" />
+                <label for="latin" class="font-semibold w-24">Latin</label>
+                <Textarea rows="2" id="latin" v-model="dataSetoran.latin" class="flex-auto" autocomplete="off" />
             </div>
             <div class="flex justify-end gap-2">
                 <Button type="button" label="Cancel" severity="secondary" @click="dialAdd = false"></Button>
@@ -18,12 +18,12 @@
         <Dialog v-model:visible="dialEdit" modal header="Edit Siswa" :style="{ width: '25rem' }">
             <span class="text-surface-500 dark:text-surface-400 block mb-8">Silahkan edit data siswa</span>
             <div class="flex items-center gap-4 mb-4">
-                <label for="tema" class="font-semibold w-24">Tema</label>
-                <InputText v-model="dataSetoran.tema" id="tema" class="flex-auto" autocomplete="off" />
+                <label for="arab" class="font-semibold w-24">Arab</label>
+                <Textarea rows="2" id="arab" v-model="dataSetoran.arab" class="flex-auto text-right" autocomplete="off" />
             </div>
             <div class="flex gap-4 mb-8">
-                <label for="deskripsi" class="font-semibold w-24">Deskripsi</label>
-                <Textarea rows="5" id="deskripsi" v-model="dataSetoran.deskripsi" class="flex-auto" autocomplete="off" />
+                <label for="latin" class="font-semibold w-24">Latin</label>
+                <Textarea rows="2" id="latin" v-model="dataSetoran.latin" class="flex-auto" autocomplete="off" />
             </div>
             <div class="flex justify-end gap-2">
                 <Button type="button" label="Cancel" severity="secondary" @click="dialAdd = false"></Button>
@@ -32,8 +32,8 @@
         </Dialog>
         <div class="mt-5 flex justify-between items-center">
             <div>
-                <h1 class="text-2xl uppercase">List Setoran</h1>
-                <h2 class="mt-2">Silahkan kelola Setoran Siswa</h2>
+                <h1 class="text-2xl uppercase">Item Hafalan</h1>
+                <h2 class="mt-2">{{ paramsSetoran.tema }}</h2>
             </div>
             <div class="h-fit">
                 <Button label="Tambah" icon="pi pi-plus" @click="addSetoran()"/>
@@ -41,16 +41,16 @@
         </div>
         <div class="mt-10">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
-                <Card @click="openSetoran(item)" v-for="(item, index) in paginatedData" :key="index" class="hover:bg-primary-100/60">
+                <Card v-for="(item, index) in paginatedData" :key="index" class="hover:bg-primary-100/60">
                     <template #content>
                         <div class="flex gap-4 mt-2 justify-between">
                             <div>
-                                <p class="font-semibold text-xl capitalize">{{ item.tema }}</p>
-                                <p class="text-sm capitalize">{{ item.deskripsi }}</p>
+                                <p class="font-semibold text-xl capitalize">{{ item.arab }}</p>
+                                <p class="text-sm capitalize">{{ item.latin }}</p>
                             </div>
                             <div class="flex gap-2 h-fit">
                                 <Button @click="editSetoran(item)" icon="pi pi-pencil" iconPos="left" severity="secondary" outlined class="w-10" />
-                                <Button @click="deleteSetoran(item.id_setoran)" icon="pi pi-trash" iconPos="left" class="w-10" />
+                                <Button @click="deleteSetoran(item.id_item)" icon="pi pi-trash" iconPos="left" class="w-10" />
                             </div>
                         </div>
                     </template>
@@ -67,7 +67,7 @@ import { Password } from 'primevue';
 import baseLayout from '../../components/baseLayout.vue';
 import api from '../../libs/axiosInstance.js'
 export default {
-    name : "Setoran",
+    name : "itemSetoran",
     components : {
         baseLayout
     },
@@ -79,6 +79,7 @@ export default {
             dialEdit : false,
             first : 0,
             rows : 14,
+            paramsSetoran : {}
         }
     },
     computed: {
@@ -88,33 +89,28 @@ export default {
         }
     },
     mounted() {
+        this.paramsSetoran = JSON.parse(atob(this.$route.params.id))
         this.getSetoran()
     },
     methods : {
-        openSetoran(item){
-            let payload = {
-                id_setoran : item.id_setoran,
-                tema : item.tema
-            }
-            this.$router.push('/guru/setoran/'+btoa(JSON.stringify(payload)))
-        },
         addSetoran() {
             this.dialAdd = true
         },
-
         editSetoran(value) {
             this.dataSetoran = {
                 ...value
             }
+            console.log(this.dataSetoran)
             this.dialEdit = true
         },
         async save(){
             try {
                 const params = {
-                    tema : this.dataSetoran.tema,
-                    deskripsi : this.dataSetoran.deskripsi
+                    arab : this.dataSetoran.arab,
+                    latin : this.dataSetoran.latin,
+                    id_setoran : this.paramsSetoran.id_setoran
                 }
-                const {data} = await api.post('api/setoran', params)
+                const {data} = await api.post('api/item-setoran', params)
                 if(!data.status) throw new Error(data.message)
                 this.$toast.add({severity:'success', summary: 'Success', detail: data.message, life: 3000});
                 this.getSetoran()
@@ -125,7 +121,7 @@ export default {
         },
         async update(){
             try {
-                const {data} = await api.put('api/setoran/'+this.dataSetoran.id_setoran, this.dataSetoran)
+                const {data} = await api.put('api/item-setoran/'+this.dataSetoran.id_item, this.dataSetoran)
                 if(!data.status) throw new Error(data.message)
                 this.$toast.add({severity:'success', summary: 'Success', detail: data.message, life: 3000});
                 this.getSetoran()
@@ -137,7 +133,7 @@ export default {
         },
         async getSetoran(){
             try {
-                const Setoran = await api.get(`api/setoran`)
+                const Setoran = await api.get(`api/item-setoran/${this.paramsSetoran.id_setoran}`)
                 if(!Setoran.data.status) throw new Error(Setoran.message)
                 this.data = Setoran.data.data
             } catch (error) {
@@ -146,7 +142,7 @@ export default {
         },
         async deleteSetoran(id){
             try {
-                const Setoran = await api.delete(`api/setoran/${id}`)
+                const Setoran = await api.delete(`api/item-setoran/${id}`)
                 if(!Setoran.data.status) throw new Error(Setoran.message)
                 this.$toast.add({severity:'success', summary: 'Success', detail: Setoran.data.message, life: 3000});
                 this.getSetoran()

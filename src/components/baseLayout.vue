@@ -119,7 +119,7 @@
                                 <li>
                                     <router-link to="/guru/setoran" v-ripple
                                         class="flex items-center cursor-pointer p-4 rounded hover:text-white text-black hover:bg-primary-500 dark:text-black  duration-150 transition-colors p-ripple">
-                                        <i class="pi pi-user mr-2"></i>
+                                        <i class="pi pi-list-check mr-2"></i>
                                         <span class="font-medium">setoran</span>
                                     </router-link>
                                 </li>
