@@ -17,8 +17,8 @@
                         <div class="overflow-y-auto">
                             <ul class="list-none p-4 m-0">
                                 <li>
-                                    <router-link to="/guru/dashboard" v-ripple
-                                        class="flex items-center cursor-pointer p-4 rounded hover:text-white text-black hover:bg-primary-500 dark:text-black  duration-150 transition-colors p-ripple">
+                                    <router-link :class="($route.path.includes('guru/dashboard')) ? 'bg-primary-500 text-white hover:text-white hover:bg-primary-500/50' : 'bg-white text-black hover:text-white hover:bg-primary-500'" to="/guru/dashboard" v-ripple
+                                        class="flex items-center cursor-pointer p-4 rounded duration-150 transition-colors p-ripple">
                                         <i class="pi pi-home mr-2"></i>
                                         <span class="font-medium">Dashboard</span>
                                     </router-link>
@@ -37,29 +37,29 @@
                                     </div>
                                     <ul class="list-none p-0 m-0 overflow-hidden">
                                         <li>
-                                            <a @click="goTo('/guru/materi/al-qiraah')" v-ripple
-                                                class="flex items-center cursor-pointer p-4 rounded hover:text-white text-black hover:bg-primary-500 dark:text-black  duration-150 transition-colors p-ripple">
+                                            <router-link :class="($route.path.includes('materi/al-qiraah')) ? 'bg-primary-500 text-white hover:text-white hover:bg-primary-500/50' : 'bg-white text-black hover:text-white hover:bg-primary-500'" to="/guru/materi/al-qiraah" v-ripple
+                                                class="flex items-center cursor-pointer p-4 rounded duration-150 transition-colors p-ripple">
                                                 <i class="pi pi-book mr-2"></i>
                                                 <span class="font-medium">Maharat Al Qira'ah</span>
-                                            </a>
+                                            </router-link>
                                         </li>
                                         <li>
-                                            <a @click="goTo('/guru/materi/al-kitabah')" v-ripple
-                                                class="flex items-center cursor-pointer p-4 rounded hover:text-white text-black hover:bg-primary-500 dark:text-black  duration-150 transition-colors p-ripple">
+                                            <router-link :class="($route.path.includes('materi/al-kitabah')) ? 'bg-primary-500 text-white hover:text-white hover:bg-primary-500/50' : 'bg-white text-black hover:text-white hover:bg-primary-500'" to="/guru/materi/al-kitabah" v-ripple
+                                                class="flex items-center cursor-pointer p-4 rounded duration-150 transition-colors p-ripple">
                                                 <i class="pi pi-book mr-2"></i>
                                                 <span class="font-medium">Maharat Al-Kitabah</span>
-                                            </a>
+                                            </router-link>
                                         </li>
                                         <li>
-                                            <router-link to="/guru/materi/al-istima" v-ripple
-                                                class="flex items-center cursor-pointer p-4 rounded hover:text-white text-black hover:bg-primary-500 dark:text-black  duration-150 transition-colors p-ripple">
+                                            <router-link :class="($route.path.includes('materi/al-istima')) ? 'bg-primary-500 text-white hover:text-white hover:bg-primary-500/50' : 'bg-white text-black hover:text-white hover:bg-primary-500'" to="/guru/materi/al-istima" v-ripple
+                                                class="flex items-center cursor-pointer p-4 rounded duration-150 transition-colors p-ripple">
                                                 <i class="pi pi-book mr-2"></i>
                                                 <span class="font-medium">Maharat Al-Istima'</span>
                                             </router-link>
                                         </li>
                                         <li>
-                                            <router-link to="/guru/materi/al-kalam" v-ripple
-                                                class="flex items-center cursor-pointer p-4 rounded hover:text-white text-black hover:bg-primary-500 dark:text-black  duration-150 transition-colors p-ripple">
+                                            <router-link :class="($route.path.includes('materi/al-kalam')) ? 'bg-primary-500 text-white hover:text-white hover:bg-primary-500/50' : 'bg-white text-black hover:text-white hover:bg-primary-500'" to="/guru/materi/al-kalam" v-ripple
+                                                class="flex items-center cursor-pointer p-4 rounded duration-150 transition-colors p-ripple">
                                                 <i class="pi pi-book mr-2"></i>
                                                 <span class="font-medium">Maharat Al-Kalam</span>
                                             </router-link>
@@ -67,58 +67,22 @@
                                     </ul>
                                 </li>
                                 <li>
-                                    <div v-ripple v-styleclass="{
-                                        selector: '@next',
-                                        enterFromClass: 'hidden',
-                                        enterActiveClass: 'animate-slidedown',
-                                        leaveToClass: 'hidden',
-                                        leaveActiveClass: 'animate-slideup'
-                                    }"
-                                        class="p-4 flex items-center justify-between text-black dark:text-black cursor-pointer p-ripple">
-                                        <span class="font-medium">LATIHAN</span>
-                                        <i class="pi pi-chevron-down"></i>
-                                    </div>
-                                    <ul class="list-none p-0 m-0 overflow-hidden">
-                                        <li>
-                                            <a @click="goTo('/guru/materi/al-qiraah')" v-ripple
-                                                class="flex items-center cursor-pointer p-4 rounded hover:text-white text-black hover:bg-primary-500 dark:text-black  duration-150 transition-colors p-ripple">
-                                                <i class="pi pi-book mr-2"></i>
-                                                <span class="font-medium">Maharat Al Qira'ah</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a @click="goTo('/guru/materi/al-kitabah')" v-ripple
-                                                class="flex items-center cursor-pointer p-4 rounded hover:text-white text-black hover:bg-primary-500 dark:text-black  duration-150 transition-colors p-ripple">
-                                                <i class="pi pi-book mr-2"></i>
-                                                <span class="font-medium">Maharat Al-Kitabah</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <router-link to="/guru/materi/al-istima" v-ripple
-                                                class="flex items-center cursor-pointer p-4 rounded hover:text-white text-black hover:bg-primary-500 dark:text-black  duration-150 transition-colors p-ripple">
-                                                <i class="pi pi-book mr-2"></i>
-                                                <span class="font-medium">Maharat Al-Istima'</span>
-                                            </router-link>
-                                        </li>
-                                        <li>
-                                            <router-link to="/guru/materi/al-kalam" v-ripple
-                                                class="flex items-center cursor-pointer p-4 rounded hover:text-white text-black hover:bg-primary-500 dark:text-black  duration-150 transition-colors p-ripple">
-                                                <i class="pi pi-book mr-2"></i>
-                                                <span class="font-medium">Maharat Al-Kalam</span>
-                                            </router-link>
-                                        </li>
-                                    </ul>
+                                    <router-link :class="($route.path.includes('/guru/latihan')) ? 'bg-primary-500 text-white hover:text-white hover:bg-primary-500/50' : 'bg-white text-black hover:text-white hover:bg-primary-500'" to="/guru/latihan" v-ripple
+                                        class="flex items-center cursor-pointer p-4 rounded duration-150 transition-colors p-ripple">
+                                        <i class="pi pi-user mr-2"></i>
+                                        <span class="font-medium">Latihan</span>
+                                    </router-link>
                                 </li>
                                 <li>
-                                    <router-link to="/guru/siswa" v-ripple
-                                        class="flex items-center cursor-pointer p-4 rounded hover:text-white text-black hover:bg-primary-500 dark:text-black  duration-150 transition-colors p-ripple">
+                                    <router-link :class="($route.path.includes('/guru/siswa')) ? 'bg-primary-500 text-white hover:text-white hover:bg-primary-500/50' : 'bg-white text-black hover:text-white hover:bg-primary-500'" to="/guru/siswa" v-ripple
+                                        class="flex items-center cursor-pointer p-4 rounded duration-150 transition-colors p-ripple">
                                         <i class="pi pi-user mr-2"></i>
                                         <span class="font-medium">Siswa</span>
                                     </router-link>
                                 </li>
                                 <li>
-                                    <router-link to="/guru/setoran" v-ripple
-                                        class="flex items-center cursor-pointer p-4 rounded hover:text-white text-black hover:bg-primary-500 dark:text-black  duration-150 transition-colors p-ripple">
+                                    <router-link :class="($route.path.includes('/guru/setoran')) ? 'bg-primary-500 text-white hover:text-white hover:bg-primary-500/50' : 'bg-white text-black hover:text-white hover:bg-primary-500'" to="/guru/setoran" v-ripple
+                                        class="flex items-center cursor-pointer p-4 rounded duration-150 transition-colors p-ripple">
                                         <i class="pi pi-list-check mr-2"></i>
                                         <span class="font-medium">setoran</span>
                                     </router-link>
@@ -167,18 +131,18 @@
                     </div>
                     <ul class="list-none p-0 m-0 overflow-hidden">
                         <li>
-                            <a @click="goTo('/guru/materi/al-qiraah')" v-ripple
+                            <router-link to="/guru/materi/al-qiraah" v-ripple
                                 class="flex items-center cursor-pointer p-4 rounded hover:text-black text-white hover:bg-primary-100 dark:text-white  duration-150 transition-colors p-ripple">
                                 <i class="pi pi-book mr-2"></i>
                                 <span class="font-medium">Maharat Al Qira'ah</span>
-                            </a>
+                            </router-link>
                         </li>
                         <li>
-                            <a @click="goTo('/guru/materi/al-kitabah')" v-ripple
+                            <router-link to="/guru/materi/al-kitabah" v-ripple
                                 class="flex items-center cursor-pointer p-4 rounded hover:text-black text-white hover:bg-primary-100 dark:text-white  duration-150 transition-colors p-ripple">
                                 <i class="pi pi-book mr-2"></i>
                                 <span class="font-medium">Maharat Al-Kitabah</span>
-                            </a>
+                            </router-link>
                         </li>
                         <li>
                             <router-link to="/guru/materi/al-istima" v-ripple
@@ -197,53 +161,24 @@
                     </ul>
                 </li>
                 <li>
-                    <div v-ripple v-styleclass="{
-                                        selector: '@next',
-                                        enterFromClass: 'hidden',
-                                        enterActiveClass: 'animate-slidedown',
-                                        leaveToClass: 'hidden',
-                                        leaveActiveClass: 'animate-slideup'
-                                    }"
-                        class="p-4 flex items-center justify-between text-white dark:text-white cursor-pointer p-ripple">
-                        <span class="font-medium">LATIHAN</span>
-                        <i class="pi pi-chevron-down"></i>
-                    </div>
-                    <ul class="list-none p-0 m-0 overflow-hidden">
-                        <li>
-                            <a @click="goTo('/guru/materi/al-qiraah')" v-ripple
-                                class="flex items-center cursor-pointer p-4 rounded hover:text-black text-white hover:bg-primary-100 dark:text-white  duration-150 transition-colors p-ripple">
-                                <i class="pi pi-book mr-2"></i>
-                                <span class="font-medium">Maharat Al Qira'ah</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a @click="goTo('/guru/materi/al-kitabah')" v-ripple
-                                class="flex items-center cursor-pointer p-4 rounded hover:text-black text-white hover:bg-primary-100 dark:text-white  duration-150 transition-colors p-ripple">
-                                <i class="pi pi-book mr-2"></i>
-                                <span class="font-medium">Maharat Al-Kitabah</span>
-                            </a>
-                        </li>
-                        <li>
-                            <router-link to="/guru/materi/al-istima" v-ripple
-                                class="flex items-center cursor-pointer p-4 rounded hover:text-black text-white hover:bg-primary-100 dark:text-white  duration-150 transition-colors p-ripple">
-                                <i class="pi pi-book mr-2"></i>
-                                <span class="font-medium">Maharat Al-Istima'</span>
-                            </router-link>
-                        </li>
-                        <li>
-                            <router-link to="/guru/materi/al-kalam" v-ripple
-                                class="flex items-center cursor-pointer p-4 rounded hover:text-black text-white hover:bg-primary-100 dark:text-white  duration-150 transition-colors p-ripple">
-                                <i class="pi pi-book mr-2"></i>
-                                <span class="font-medium">Maharat Al-Kalam</span>
-                            </router-link>
-                        </li>
-                    </ul>
+                    <router-link to="/guru/latihan" v-ripple
+                        class="flex items-center cursor-pointer p-4 rounded hover:text-black text-white hover:bg-primary-100 dark:text-white  duration-150 transition-colors p-ripple">
+                        <i class="pi pi-user mr-2"></i>
+                        <span class="font-medium">Latihan</span>
+                    </router-link>
                 </li>
                 <li>
                     <router-link to="/guru/siswa" v-ripple
                         class="flex items-center cursor-pointer p-4 rounded hover:text-black text-white hover:bg-primary-100 dark:text-white  duration-150 transition-colors p-ripple">
                         <i class="pi pi-user mr-2"></i>
                         <span class="font-medium">Siswa</span>
+                    </router-link>
+                </li>
+                <li>
+                    <router-link to="/guru/setoran" v-ripple
+                        class="flex items-center cursor-pointer p-4 rounded hover:text-black text-white hover:bg-primary-100 dark:text-white  duration-150 transition-colors p-ripple">
+                        <i class="pi pi-list-check mr-2"></i>
+                        <span class="font-medium">Setoran</span>
                     </router-link>
                 </li>
             </ul>
@@ -269,11 +204,6 @@ export default {
     data() {
         return {
             visible: false
-        }
-    },
-    methods: {
-        goTo(url) {
-            this.$router.push(url)
         }
     },
 }

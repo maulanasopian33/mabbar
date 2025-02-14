@@ -1,7 +1,7 @@
 <template>
     <div class="bg-[#c7e1ff] w-screen h-screen">
         <div class="bg-[url('/assets/bg.svg')] w-full h-full p-6 flex flex-col justify-center items-center">
-            <div class="md:w-[60%] h-full w-full">
+            <div class="lg:w-[60%] md:w-[80%] h-full w-full">
                 <div @click="kembali()" class="flex cursor-pointer items-center text-xl py-2 px-4 hover:text-white hover:bg-primary-300 w-fit rounded-full">
                     <i class="pi pi-chevron-left"></i>
                     <p>Kembali</p>

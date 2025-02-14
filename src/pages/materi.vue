@@ -1,19 +1,21 @@
 <template>
     <div class="bg-[#c7e1ff] w-screen min-h-screen">
         <div class="bg-[url('/assets/bg.svg')] w-full h-full p-6 flex flex-col justify-center">
-            <div @click="kembali()"
-                class="flex cursor-default items-center text-xl py-2 px-4 hover:text-white hover:bg-primary-300 w-fit rounded-full">
-                <i class="pi pi-chevron-left"></i>
-                <p>Kembali</p>
-            </div>
-            <div class="md:flex md:justify-center md:items-center">
-                <div class="bg-white p-5 mt-8 rounded-md md:w-[35%]">
-                    <h2 class="text-2xl font-semibold capitalize">{{ data?.judul }}</h2>
-                    <p class="capitalize font">{{ data?.materi }} | {{ data?.user?.nama }} | {{ convertDate(data?.createdAt) }}</p>
-                    <img :src="url+data?.featureimage" class="mt-5" alt="" srcset="">
-                    <div class="text-justify content-materi" v-html="data.content"></div>
-                    <div class="grid grid-cols-1 gap-5 mt-5">
-                        <Image preview v-for="(item, index) in data?.listlampirans" :key="index" :src="url+item.file"/>
+            <div class="lg:w-[60%] md:w-[80%] mx-auto">
+                <div @click="kembali()"
+                    class="flex cursor-default items-center text-xl py-2 px-4 hover:text-white hover:bg-primary-300 w-fit rounded-full">
+                    <i class="pi pi-chevron-left"></i>
+                    <p>Kembali</p>
+                </div>
+                <div class="md:flex md:justify-center md:items-center">
+                    <div class="bg-white p-5 mt-8 rounded-md">
+                        <h2 class="text-2xl font-semibold capitalize">{{ data?.judul }}</h2>
+                        <p class="capitalize font">{{ data?.materi }} | {{ data?.user?.nama }} | {{ convertDate(data?.createdAt) }}</p>
+                        <img :src="url+data?.featureimage" class="mt-5" alt="" srcset="">
+                        <div class="text-justify content-materi" v-html="data.content"></div>
+                        <div class="grid grid-cols-1 gap-5 mt-5">
+                            <Image preview v-for="(item, index) in data?.listlampirans" :key="index" :src="url+item.file"/>
+                        </div>
                     </div>
                 </div>
             </div>
