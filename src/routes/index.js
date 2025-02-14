@@ -6,6 +6,8 @@ import listBelajar from '../pages/listBelajar.vue';
 import materi from '../pages/materi.vue';
 import Skornilai from '../pages/Skornilai.vue';
 import Setoran from '../pages/Setoran.vue';
+import ItemSetoranSiswa from '../pages/item-setoran.vue';
+import ListLatihan from '../pages/listLatihan.vue';
 
 import guruAuth from '../middleware/guruAuth';
 import siswaAuth from '../middleware/siswaAuth';
@@ -20,7 +22,9 @@ import Siswa from '../pages/guru/siswa.vue';
 import ListMateri from '../pages/listMateri.vue';
 import listSetoran from '../pages/guru/setoran.vue';
 import ItemSetoran from '../pages/guru/itemSetoran.vue';
-
+import guruLatihan from '../pages/guru/latihan.vue';
+import guruSoalPG from '../pages/guru/soal-pg.vue';
+import guruSoalPGAdd from '../pages/guru/soal-pgAdd.vue';
 const routes = [
   {
     path: '/',
@@ -80,6 +84,22 @@ const routes = [
       middleware: [siswaAuth]
     }
   },
+  {
+    path: '/latihan',
+    name: 'Latihan',
+    component: ListLatihan,
+    meta: {
+      middleware: [siswaAuth]
+    }
+  },
+  {
+    path: '/setoran/:id',
+    name: 'itemSetoran',
+    component: ItemSetoranSiswa,
+    meta: {
+      middleware: [siswaAuth]
+    }
+  },
   // guru
   {
     path: '/guru',
@@ -95,9 +115,6 @@ const routes = [
     path: '/guru/register',
     name: 'register Guru',
     component: registerGuru,
-    meta: {
-      middleware: [guruAuth]
-    }
   },
   {
     path: '/guru/dashboard',
@@ -151,6 +168,30 @@ const routes = [
     path: '/guru/setoran/:id',
     name: 'item setoran',
     component: ItemSetoran,
+    meta: {
+      middleware: [guruAuth]
+    }
+  },
+  {
+    path: '/guru/latihan',
+    name: 'guruLatihan',
+    component: guruLatihan,
+    meta: {
+      middleware: [guruAuth]
+    }
+  },
+  {
+    path: '/guru/latihan/pilihan-ganda/:id',
+    name: 'guruSoalPG',
+    component: guruSoalPG,
+    meta: {
+      middleware: [guruAuth]
+    }
+  },
+  {
+    path: '/guru/latihan/pilihan-ganda/add/:id',
+    name: 'guruSoalPGAdd',
+    component: guruSoalPGAdd,
     meta: {
       middleware: [guruAuth]
     }

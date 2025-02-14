@@ -57,7 +57,6 @@
                 </Card>
             </div>
             <Paginator class="mt-4" v-model:first="first" :rows="rows" :totalRecords="data.length" template="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink" />
-
         </div>
     </baseLayout>
 </template>
@@ -78,7 +77,7 @@ export default {
             dialAdd : false,
             dialEdit : false,
             first : 0,
-            rows : 14,
+            rows : 16,
             paramsSetoran : {}
         }
     },
@@ -100,7 +99,6 @@ export default {
             this.dataSetoran = {
                 ...value
             }
-            console.log(this.dataSetoran)
             this.dialEdit = true
         },
         async save(){
@@ -113,6 +111,7 @@ export default {
                 const {data} = await api.post('api/item-setoran', params)
                 if(!data.status) throw new Error(data.message)
                 this.$toast.add({severity:'success', summary: 'Success', detail: data.message, life: 3000});
+                this.dataSetoran = {}
                 this.getSetoran()
                 this.dialAdd = false
             } catch (error) {
@@ -125,6 +124,7 @@ export default {
                 if(!data.status) throw new Error(data.message)
                 this.$toast.add({severity:'success', summary: 'Success', detail: data.message, life: 3000});
                 this.getSetoran()
+                this.dataSetoran = {}
                 this.dialEdit = false
             } catch (error) {
                 console.log(error)

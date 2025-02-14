@@ -14,10 +14,13 @@
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
     "moment": "^2.30.1",
+    "path-browserify": "^1.0.1",
     "primeicons": "^7.0.0",
     "primevue": "^4.0.5",
     "quill": "2.0.3",
+    "source-map": "^0.7.4",
     "tailwindcss-primeui": "^0.3.4",
+    "url-polyfill": "^1.1.13",
     "vue": "^3.4.37",
     "vue-router": "^4.5.0"
   },
