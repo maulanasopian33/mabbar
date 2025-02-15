@@ -8,6 +8,7 @@ import Skornilai from '../pages/Skornilai.vue';
 import Setoran from '../pages/Setoran.vue';
 import ItemSetoranSiswa from '../pages/item-setoran.vue';
 import ListLatihan from '../pages/listLatihan.vue';
+import latihanTest from '../pages/latihan-test.vue';
 
 import guruAuth from '../middleware/guruAuth';
 import siswaAuth from '../middleware/siswaAuth';
@@ -70,7 +71,7 @@ const routes = [
   },
   {
     path: '/skornilai',
-    name: 'Skor Nilai',
+    name: 'SkorNilai',
     component: Skornilai,
     meta: {
       middleware: [siswaAuth]
@@ -88,6 +89,14 @@ const routes = [
     path: '/latihan',
     name: 'Latihan',
     component: ListLatihan,
+    meta: {
+      middleware: [siswaAuth]
+    }
+  },
+  {
+    path: '/latihan/:id',
+    name: 'LatihanTest',
+    component: latihanTest,
     meta: {
       middleware: [siswaAuth]
     }

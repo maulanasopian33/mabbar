@@ -47,10 +47,12 @@
         </div>
         <div class="mt-10">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                <Card @click="addSoal(item)" v-for="(item, index) in data" :key="index" class="hover:bg-primary-100/60">
+                <Card v-for="(item, index) in data" :key="index" class="hover:bg-primary-100/60">
                     <template #content>
-                        <p class="font-semibold text-lg capitalize">{{ item.nama_latihan }}</p>
-                        <p class="mt-4"><span class="bg-green-500 py-2 px-2 rounded-md text-xs text-white">{{ item.materi }}</span><span class="ml-2 bg-primary-500 py-2 px-2 rounded-md text-xs text-white">{{ item.jenis }}</span></p>
+                        <div @click="addSoal(item)">
+                            <p class="font-semibold text-lg capitalize">{{ item.nama_latihan }}</p>
+                            <p class="mt-4"><span class="bg-green-500 py-2 px-2 rounded-md text-xs text-white">{{ item.materi }}</span><span class="ml-2 bg-primary-500 py-2 px-2 rounded-md text-xs text-white">{{ item.jenis }}</span></p>
+                        </div>
                     </template>
                     <template #footer>
                         <div class="flex gap-4 mt-2">
