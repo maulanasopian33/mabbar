@@ -13,8 +13,8 @@
                         <h2 class="mt-2">{{ params.deskripsi }}</h2>
                     </div>
                     <DataTable showGridlines :value="data" class="w-full mb-10">
-                        <Column bodyClass="bg-primary-500/10 rounded-tl-md" headerClass="bg-primary-500 text-white" field="arab" header="Arab"></Column>
-                        <Column bodyClass="bg-primary-500/10" headerClass="bg-primary-500 text-white" field="latin" header="Latin"></Column>
+                        <Column bodyClass="bg-primary-500/10 rounded-tl-md" headerClass="bg-primary-500 text-white !w-[100px]" field="arab" header="Arab"></Column>
+                        <Column bodyClass="bg-primary-500/10" headerClass="bg-primary-500 text-white w-[30%]" field="latin" header="Latin"></Column>
                         <Column bodyClass="bg-primary-500/10 rounded-tr-md" headerClass="bg-primary-500 text-white" field="status" header="Status">
                             <template #body="{ data }">
                                 <div class="text-center">

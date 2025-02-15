@@ -23,7 +23,7 @@
                     
                 </div>
                 <div class="mt-10">
-                    <Card @click="goTo(item)" v-for="(item, index) in paginatedData" :key="index" class="hover:bg-primary-500/60 bg-primary text-white">
+                    <Card @click="goTo(item)" v-for="(item, index) in paginatedData" :key="index" class="hover:bg-primary-500/60 bg-primary text-white my-2">
                         <template #content>
                             <div class="flex gap-4 mt-2 justify-between">
                                 <div>
