@@ -1,5 +1,5 @@
 <template>
-    <baseLayout>
+    <baseLayout :loading="loading">
         <Dialog v-model:visible="dialAdd" modal header="Tambahkan Latihan" :style="{ width: '25rem' }">
             <div class="flex items-center gap-4 mb-4">
                 <label for="nama_latihan" class="font-semibold w-24">Nama Latihan</label>
@@ -85,13 +85,13 @@ export default {
             dialEdit : false,
             materi : ["Al-Qira'ah","Al-Kitabah","Al-Istima'","Al-Kalam"],
             jenis_latihan : ["Pilihan Ganda","Uraian"],
+            loading : false
         }
     },
     watch : {
         '$route.params.id'(value) {
             this.nmMateri = value
             this.getLatihan()
-            console.log(value)
         }
     },
 
@@ -114,9 +114,11 @@ export default {
         },
         async getLatihan(){
             try {
+                this.loading = true
                 const materi = await api.get(`api/latihan`)
                 if(!materi.data.status) throw new Error(materi.message)
                 this.data = materi.data.data
+                this.loading = false
             } catch (error) {
                 this.$toast.add({severity:'error', summary: 'Error', detail: error.message, life: 3000});
             }

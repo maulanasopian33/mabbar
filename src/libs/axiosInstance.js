@@ -5,7 +5,6 @@ import { getSession } from './sessionManager.js';
 // Buat instance axios
 const axiosInstance = axios.create({
     baseURL: import.meta.env.VITE_URL_API, // Sesuaikan dengan URL API kamu
-    timeout: 10000, // Optional: mengatur batas waktu request
 });
 axios.defaults.withCredentials = true;
 // Interceptor untuk menyisipkan Bearer Token di header Authorization

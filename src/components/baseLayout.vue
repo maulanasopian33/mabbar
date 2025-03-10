@@ -1,5 +1,10 @@
 <template>
     <div class="flex w-full bg-slate-200">
+        <Dialog v-model:visible="showloading" class="w-fit p-10">
+            <template #container="{ closeCallback }">
+                <i class="pi pi-spin pi-spinner text-bold text-5xl text-primary-500"></i>
+            </template>
+        </Dialog>
         <aside class="md:hidden block">
             <Drawer v-model:visible="visible">
                 <template #container="{ closeCallback }">
@@ -69,7 +74,7 @@
                                 <li>
                                     <router-link :class="($route.path.includes('/guru/latihan')) ? 'bg-primary-500 text-white hover:text-white hover:bg-primary-500/50' : 'bg-white text-black hover:text-white hover:bg-primary-500'" to="/guru/latihan" v-ripple
                                         class="flex items-center cursor-pointer p-4 rounded duration-150 transition-colors p-ripple">
-                                        <i class="pi pi-user mr-2"></i>
+                                        <i class="pi pi-objects-column mr-2"></i>
                                         <span class="font-medium">Latihan</span>
                                     </router-link>
                                 </li>
@@ -87,15 +92,44 @@
                                         <span class="font-medium">setoran</span>
                                     </router-link>
                                 </li>
+                                <li>
+                                    <div v-ripple v-styleclass="{
+                                        selector: '@next',
+                                        enterFromClass: 'hidden',
+                                        enterActiveClass: 'animate-slidedown',
+                                        leaveToClass: 'hidden',
+                                        leaveActiveClass: 'animate-slideup'
+                                    }"
+                                        class="p-4 flex items-center justify-between text-black dark:text-black cursor-pointer p-ripple">
+                                        <span class="font-medium">Penilaian</span>
+                                        <i class="pi pi-chevron-down"></i>
+                                    </div>
+                                    <ul class="list-none p-0 m-0 overflow-hidden">
+                                        <li>
+                                            <router-link :class="($route.path.includes('/guru/penilaian/latihan')) ? 'bg-primary-500 text-white hover:text-white hover:bg-primary-500/50' : 'bg-white text-black hover:text-white hover:bg-primary-500'" to="/guru/penilaian/latihan" v-ripple
+                                                class="flex items-center cursor-pointer p-4 rounded duration-150 transition-colors p-ripple">
+                                                <i class="pi pi-calculator mr-2"></i>
+                                                <span class="font-medium">Penilaian Latihan</span>
+                                            </router-link>
+                                        </li>
+                                        <li>
+                                            <router-link :class="($route.path.includes('/guru/penilaian/setoran')) ? 'bg-primary-500 text-white hover:text-white hover:bg-primary-500/50' : 'bg-white text-black hover:text-white hover:bg-primary-500'" to="/guru/penilaian/setoran" v-ripple
+                                                class="flex items-center cursor-pointer p-4 rounded duration-150 transition-colors p-ripple">
+                                                <i class="pi pi-calculator mr-2"></i>
+                                                <span class="font-medium">Penilaian Setoran</span>
+                                            </router-link>
+                                        </li>
+                                    </ul>
+                                </li>
                             </ul>
                         </div>
                         <div class="mt-auto">
                             <hr class="mb-4 mx-4 border-t border-0 border-surface-200 dark:border-surface-700" />
                             <a  v-ripple
                                 class="m-4 flex items-center cursor-pointer p-4 gap-2 rounded text-black hover:bg-primary-500 dark:text-black  duration-150 transition-colors p-ripple">
-                                <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png"
+                                <Avatar :label="label"
                                     shape="circle" />
-                                <span class="font-bold">Amy Elsner</span>
+                                <span class="font-bold">{{ nama }}</span>
                             </a>
                         </div>
                     </div>
@@ -163,7 +197,7 @@
                 <li>
                     <router-link to="/guru/latihan" v-ripple
                         class="flex items-center cursor-pointer p-4 rounded hover:text-black text-white hover:bg-primary-100 dark:text-white  duration-150 transition-colors p-ripple">
-                        <i class="pi pi-user mr-2"></i>
+                        <i class="pi pi-objects-column mr-2"></i>
                         <span class="font-medium">Latihan</span>
                     </router-link>
                 </li>
@@ -181,14 +215,43 @@
                         <span class="font-medium">Setoran</span>
                     </router-link>
                 </li>
+                <li>
+                    <div v-ripple v-styleclass="{
+                        selector: '@next',
+                        enterFromClass: 'hidden',
+                        enterActiveClass: 'animate-slidedown',
+                        leaveToClass: 'hidden',
+                        leaveActiveClass: 'animate-slideup'
+                    }"
+                        class="p-4 flex items-center justify-between text-white dark:text-white cursor-pointer p-ripple">
+                        <span class="font-medium">Penilaian</span>
+                        <i class="pi pi-chevron-down"></i>
+                    </div>
+                    <ul class="list-none p-0 m-0 overflow-hidden">
+                        <li>
+                            <router-link to="/guru/penilaian/latihan" v-ripple
+                            class="flex items-center cursor-pointer p-4 rounded hover:text-black text-white hover:bg-primary-100 dark:text-white  duration-150 transition-colors p-ripple">
+                                <i class="pi pi-calculator mr-2"></i>
+                                <span class="font-medium">Penilaian Latihan</span>
+                            </router-link>
+                        </li>
+                        <li>
+                            <router-link to="/guru/penilaian/setoran" v-ripple
+                            class="flex items-center cursor-pointer p-4 rounded hover:text-black text-white hover:bg-primary-100 dark:text-white  duration-150 transition-colors p-ripple">
+                                <i class="pi pi-calculator mr-2"></i>
+                                <span class="font-medium">Penilaian Setoran</span>
+                            </router-link>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </div>
         <div class="w-full">
             <div class="bg-white flex justify-between md:justify-end px-5 py-3">
                 <Button class="md:hidden" icon="pi pi-bars" size="Large" variant="link" @click="visible = true" />
                 <div>
-                    <Avatar label="U" class="mr-2" size="large" shape="circle" />
-                    <Button icon="pi pi-sign-out" size="Large" variant="link" />
+                    <Avatar :label="label" class="mr-2" size="large" shape="circle" />
+                    <Button icon="pi pi-sign-out" size="Large" variant="link" @click="logout()" />
                 </div>
             </div>
             <div class="bg-slate-200 min-h-screen p-5">
@@ -199,12 +262,42 @@
 </template>
 
 <script>
+import { getSession } from '../libs/sessionManager';
+
 export default {
     name : "baseLayout",
     data() {
         return {
-            visible: false
+            visible: false,
+            showloading : false,
+            nama : '',
+            label : ''
         }
+    },
+    props: {
+        loading : Boolean
+    },
+    watch: {
+      loading(value){
+        this.showloading = value
+      }  
+    },
+    mounted() {
+        this.setlabel()
+    },
+    methods: {
+        logout(){
+            sessionStorage.removeItem('Token')
+            sessionStorage.removeItem('nama')
+            this.$router.push({name: 'Login Guru'})
+        },
+        setlabel(){
+            this.nama = getSession('nama')
+            this.label = this.nama
+                                .split(" ")
+                                .map((word) => word.charAt(0).toUpperCase())
+                                .join("");
+        },
     },
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <baseLayout>
+    <baseLayout :loading="loading">
         <Dialog v-model:visible="dialAdd" modal header="Tambahkan Setoran" :style="{ width: '25rem' }">
             <span class="text-surface-500 dark:text-surface-400 block mb-8">Silahkan tambahkan data setoran</span>
             <div class="flex items-center gap-4 mb-4">
@@ -78,7 +78,8 @@ export default {
             dialEdit : false,
             first : 0,
             rows : 16,
-            paramsSetoran : {}
+            paramsSetoran : {},
+            loading : false
         }
     },
     computed: {
@@ -103,6 +104,7 @@ export default {
         },
         async save(){
             try {
+                this.loading = true
                 const params = {
                     arab : this.dataSetoran.arab,
                     latin : this.dataSetoran.latin,
@@ -114,39 +116,49 @@ export default {
                 this.dataSetoran = {}
                 this.getSetoran()
                 this.dialAdd = false
+                this.loading = false
             } catch (error) {
+                this.loading = false
                 this.$toast.add({severity:'error', summary: 'Error', detail: error.message, life: 3000});
             }
         },
         async update(){
             try {
+                this.loading = true
                 const {data} = await api.put('api/item-setoran/'+this.dataSetoran.id_item, this.dataSetoran)
                 if(!data.status) throw new Error(data.message)
                 this.$toast.add({severity:'success', summary: 'Success', detail: data.message, life: 3000});
                 this.getSetoran()
                 this.dataSetoran = {}
                 this.dialEdit = false
+                this.loading = false
             } catch (error) {
-                console.log(error)
+                this.loading = false
                 this.$toast.add({severity:'error', summary: 'Error', detail: error.message, life: 3000});
             }
         },
         async getSetoran(){
             try {
+                this.loading = true
                 const Setoran = await api.get(`api/item-setoran/${this.paramsSetoran.id_setoran}`)
                 if(!Setoran.data.status) throw new Error(Setoran.message)
                 this.data = Setoran.data.data
+                this.loading = false
             } catch (error) {
+                this.loading = false
                 this.$toast.add({severity:'error', summary: 'Error', detail: error.message, life: 3000});
             }
         },
         async deleteSetoran(id){
             try {
+                this.loading = true
                 const Setoran = await api.delete(`api/item-setoran/${id}`)
                 if(!Setoran.data.status) throw new Error(Setoran.message)
                 this.$toast.add({severity:'success', summary: 'Success', detail: Setoran.data.message, life: 3000});
                 this.getSetoran()
+                this.loading = false
             } catch (error) {
+                this.loading = false
                 this.$toast.add({severity:'error', summary: 'Error', detail: error.message, life: 3000});
             }
         }

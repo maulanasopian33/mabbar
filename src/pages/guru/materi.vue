@@ -1,5 +1,5 @@
 <template>
-    <baseLayout>
+    <baseLayout :loading="loading">
         <div class="mt-5 flex justify-between items-center">
             <div>
                 <h1 class="text-2xl uppercase">Materi {{ nmMateri }}</h1>
@@ -40,14 +40,14 @@ export default {
     data() {
         return {
             nmMateri : this.$route.params.id,
-            data : {}
+            data : {},
+            loading : false
         }
     },
     watch : {
         '$route.params.id'(value) {
             this.nmMateri = value
             this.getmateri()
-            console.log(value)
         }
     },
     mounted() {
@@ -62,9 +62,11 @@ export default {
         },
         async getmateri(){
             try {
+                this.loading = true
                 const materi = await api.get(`api/materi?id=${this.nmMateri}`)
                 if(!materi.data.status) throw new Error(materi.message)
                 this.data = materi.data.data
+                this.loading = false
             } catch (error) {
                 this.$toast.add({severity:'error', summary: 'Error', detail: error.message, life: 3000});
             }

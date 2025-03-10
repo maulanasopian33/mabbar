@@ -1,5 +1,10 @@
 <template>
     <div class="bg-[#c7e1ff] w-screen h-screen">
+        <Dialog v-model:visible="loading" class="w-fit p-10">
+            <template #container="{ closeCallback }">
+                <i class="pi pi-spin pi-spinner text-bold text-5xl text-primary-500"></i>
+            </template>
+        </Dialog>
         <div class="bg-[url('/assets/bg.svg')] w-full h-full p-6 flex flex-col justify-center items-center">
             <div class="lg:w-[60%] md:w-[80%] h-full w-full">
                 <div @click="kembali()" class="flex cursor-pointer items-center text-xl py-2 px-4 hover:text-white hover:bg-primary-300 w-fit rounded-full">
@@ -33,7 +38,8 @@ export default {
     },
     data() {
         return {
-            data : {}
+            data : {},
+            loading : false
         }
     },
     methods: {
@@ -57,11 +63,13 @@ export default {
         },
         async getLatihan() {
             try {
+                this.loading = true
                 const latihan = await api.get(`api/latihan/`)
                 if (!latihan.data.status) throw new Error(latihan.message)
                 this.data = latihan.data.data
-                console.log(latihan.data.data)
+                this.loading = false
             } catch (error) {
+                this.loading = false
                 this.$toast.add({
                     severity: 'error',
                     summary: 'Error',

@@ -1,5 +1,10 @@
 <template>
-     <div class="bg-[#c7e1ff] w-screen h-screen">
+     <div class="bg-[#c7e1ff] w-screen h-screen md:h-full">
+        <Dialog v-model:visible="loading" class="w-fit p-10">
+            <template #container="{ closeCallback }">
+                <i class="pi pi-spin pi-spinner text-bold text-5xl text-primary-500"></i>
+            </template>
+        </Dialog>
         <div class="bg-[url('/assets/bg.svg')] w-full h-full p-6 flex flex-col justify-center items-center">
             <div class="lg:w-[60%] md:w-[80%] h-full">
                 <div class="mt-10">
@@ -38,8 +43,15 @@ export default {
     name: "home",
     data() {
         return {
-            nama : getSession('nama')
+            nama : getSession('nama'),
+            loading : false
         }
+    },
+    mounted() {
+        this.loading = true
+        setTimeout(() => {
+            this.loading = false
+        }, 100)  
     },
     methods: {
         goToBelajar(){

@@ -1,5 +1,10 @@
 <template>
     <div class="bg-[#c7e1ff] w-screen h-screen">
+        <Dialog v-model:visible="loading" class="w-fit p-10">
+            <template #container="{ closeCallback }">
+                <i class="pi pi-spin pi-spinner text-bold text-5xl text-primary-500"></i>
+            </template>
+        </Dialog>
         <div class="bg-[url('/assets/bg.svg')] w-full h-full p-6 flex flex-col items-center">
             <div class="w-full md:bg-white/10 md:w-[80%] lg:w-[60%] md:border-2 border-primary-500 rounded-lg md:p-5 md:h-screen">
                 <div @click="kembali()"
@@ -9,15 +14,15 @@
                 </div>
                 <div class="grid grid-cols-3 gap-3">
                     <div class="bg-primary-500/60 text-white rounded-md flex flex-col items-center p-4 h-36">
-                        <h3 class="text-4xl text-black bg-white rounded-full p-3 font-semibold w-[70px] text-center">?</h3>
+                        <h3 class="text-4xl text-black bg-white rounded-full p-3 font-semibold w-[70px] text-center">{{ rangking[2]?.nama || '?' }}</h3>
                         <p class="text-3xl mt-2">3</p>
                     </div>
                     <div class="bg-primary-500 text-white rounded-md flex flex-col items-center p-4 mt-5 h-36">
-                        <h3 class="text-4xl text-black bg-white rounded-full p-3 font-semibold w-[70px] text-center">?</h3>
+                        <h3 class="text-4xl text-black bg-white rounded-full p-3 font-semibold w-[70px] text-center">{{ rangking[0]?.nama || '?' }}</h3>
                         <p class="text-3xl mt-2">1</p>
                     </div>
                     <div class="bg-primary-500/60 text-white rounded-md flex flex-col items-center p-4 h-36">
-                        <h3 class="text-4xl text-black bg-white rounded-full p-3 font-semibold w-[70px] text-center">?</h3>
+                        <h3 class="text-4xl text-black bg-white rounded-full p-3 font-semibold w-[70px] text-center">{{ rangking[1]?.nama || '?' }}</h3>
                         <p class="text-3xl mt-2">2</p>
                     </div>
                     
@@ -47,8 +52,10 @@ export default {
     data() {
         return {
             data : [],
+            rangking : [],
             first : 0,
             rows : 14,
+            loading : false
         }
     },
     computed: {
@@ -58,6 +65,7 @@ export default {
     },
     mounted() {
         this.getSetoran()
+        this.getRangking()
     },
     methods: {
         kembali() {
@@ -78,9 +86,27 @@ export default {
         },
         async getSetoran(){
             try {
+                this.loading = true
                 const Setoran = await api.get(`api/setoran`)
                 if(!Setoran.data.status) throw new Error(Setoran.message)
                 this.data = Setoran.data.data
+                this.loading = false
+            } catch (error) {
+                this.loading = false
+                this.$toast.add({severity:'error', summary: 'Error', detail: error.message, life: 3000});
+            }
+        },
+        async getRangking(){
+            try {
+                const Rangking = await api.get(`api/penilaian-setoran/get-rangking`)
+                if(!Rangking.data.status) throw new Error(Rangking.message)
+                this.rangking = Rangking.data.data.map((item) => {
+                    return {
+                        nama : item.nama.split(" ")
+                                .map((word) => word.charAt(0).toUpperCase())
+                                .join("")
+                    }
+                })
             } catch (error) {
                 this.$toast.add({severity:'error', summary: 'Error', detail: error.message, life: 3000});
             }

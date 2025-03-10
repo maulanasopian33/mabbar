@@ -1,5 +1,17 @@
 <template>
     <baseLayout>
+        <Dialog v-model:visible="dialAdd" modal header="Lihat Soal" :style="{ width: '25rem' }">
+            <p class="p-5 text-xl bg-primary-500/20 border border-primary-500 rounded-md mb-5">{{ datashow.soal }}</p>
+            <div class="grid grid-cols-4 mb-3">
+                <Image preview v-for="(item, index) in datashow.lampiran" :key="index" :src="url+item.path"/>
+            </div>
+            <div class="grid grid-cols-2">
+                <p class="bg-primary-500/60 py-2 px-4 break-all text-white">A. {{ datashow.pilihan_a }} <i :class="datashow.kunci_jawaban === 'A' ? 'pi pi-check' : ''"></i></p>
+                <p class="bg-primary-500/60 py-2 px-4 break-all text-white">B. {{ datashow.pilihan_b }} <i :class="datashow.kunci_jawaban === 'B' ? 'pi pi-check' : ''"></i></p>
+                <p class="bg-primary-500/30 py-2 px-4 break-all">C. {{ datashow.pilihan_c }} <i :class="datashow.kunci_jawaban === 'C' ? 'pi pi-check' : ''"></i></p>
+                <p class="bg-primary-500/30 py-2 px-4 break-all">D. {{ datashow.pilihan_d }} <i :class="datashow.kunci_jawaban === 'D' ? 'pi pi-check' : ''"></i></p>
+            </div>
+        </Dialog>
         <div class="mt-5 flex justify-between items-center">
             <div>
                 <h1 class="text-2xl uppercase">List Soal PG</h1>
@@ -16,8 +28,8 @@
                         <div class="flex gap-4 mt-2 justify-between">
                             <p class="font-semibold text-lg break-all">{{ item.soal.substring(0,50) }}</p>
                             <div class="flex gap-2">
-                                <!-- <Button @click="editSiswa(item)" icon="pi pi-pencil" iconPos="left" severity="secondary" outlined class="w-10" /> -->
-                                <Button @click="deleteSoal(item.id_soal)" icon="pi pi-trash" iconPos="left" class="w-10" />
+                                <Button @click="showSoal(item)" icon="pi pi-eye" iconPos="left" severity="secondary" outlined class="w-10 h-fit" />
+                                <Button @click="deleteSoal(item.id_soal)" icon="pi pi-trash" iconPos="left" class="w-10 h-fit" />
                             </div>
                         </div>
                     </template>
@@ -42,6 +54,8 @@ export default {
         return {
             dataSiswa : {},
             id : this.$route.params.id,
+            url : import.meta.env.VITE_URL_API,
+            datashow : {},
             data : [],
             dialAdd : false,
             dialEdit : false,
@@ -59,6 +73,13 @@ export default {
         this.getSoal()
     },
     methods : {
+        showSoal(item){
+            this.dialAdd = true
+            this.datashow = {
+                ...item
+            }
+            console.log(item)
+        },
         AddSoal() {
             this.$router.push('/guru/latihan/pilihan-ganda/add/'+ this.id)
         },
@@ -74,7 +95,12 @@ export default {
             try {
                 const soal = await api.get(`api/latihan/soal-pg/${this.id}`)
                 if(!soal.data.status) throw new Error(siswa.message)
-                this.data = soal.data.data
+                this.data = soal.data.data.map((item) => {
+                    return {
+                        ...item,
+                        lampiran : JSON.parse(item.lampiran),
+                    }
+                })
             } catch (error) {
                 this.$toast.add({severity:'error', summary: 'Error', detail: error.message, life: 3000});
             }

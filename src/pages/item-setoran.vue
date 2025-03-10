@@ -1,7 +1,7 @@
 <template>
     <div class="bg-[#c7e1ff] w-screen h-screen overflow-y-scroll pb-10">
         <div class="bg-[url('/assets/bg.svg')] w-full h-full p-6 flex flex-col items-center">
-            <div class="w-full md:bg-white/10 md:w-[80%] lg:w-[60%] md:border-2 border-primary-500 rounded-lg md:p-5 md:h-screen">
+            <div class="w-full md:bg-white/10 md:w-[80%] lg:w-[60%] md:border-2 border-primary-500 rounded-lg md:p-5">
                 <div @click="kembali()"
                     class="flex cursor-pointer mb-5 items-center text-xl py-2 px-4 hover:text-white hover:bg-primary-300 w-fit rounded-full">
                     <i class="pi pi-chevron-left"></i>
@@ -31,12 +31,14 @@
 
 <script>
 import api from '../libs/axiosInstance.js'
+import { getSession } from '../libs/sessionManager';
 export default {
     name: 'item-setoran',
     data() {
         return {
             data : [],
-            params : ''
+            params : '',
+            idSiswa : getSession('idSiswa')
         }
     },
     mounted() {
@@ -51,12 +53,11 @@ export default {
         },
         async getSetoran(){
             try {
-                const Setoran = await api.get(`api/item-setoran/${this.params.id_setoran}`)
+                const Setoran = await api.get(`api/penilaian-setoran/${this.idSiswa}/${this.params.id_setoran}`)
                 if(!Setoran.data.status) throw new Error(Setoran.message)
                 this.data = Setoran.data.data.map((item)=>{
                     return {
                         ...item,
-                        status : 0
                     }
                 })
             } catch (error) {

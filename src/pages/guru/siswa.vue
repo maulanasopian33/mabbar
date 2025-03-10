@@ -1,5 +1,5 @@
 <template>
-    <baseLayout>
+    <baseLayout :loading="loading">
         <Dialog v-model:visible="dialAdd" modal header="Tambahkan Siswa" :style="{ width: '25rem' }">
             <span class="text-surface-500 dark:text-surface-400 block mb-8">Silahkan tambahkan data siswa</span>
             <div class="flex items-center gap-4 mb-4">
@@ -76,6 +76,7 @@ export default {
             dialEdit : false,
             first : 0,
             rows : 14,
+            loading : false
         }
     },
     computed: {
@@ -101,44 +102,54 @@ export default {
         },
         async save(){
             try {
+                this.loading = true
                 const {data} = await api.post('api/siswa', this.dataSiswa)
                 if(!data.status) throw new Error(data.message)
                 this.$toast.add({severity:'success', summary: 'Success', detail: data.message, life: 3000});
                 this.getSiswa()
                 this.dialAdd = false
+                this.loading = false
             } catch (error) {
+                this.loading = false
                 this.$toast.add({severity:'error', summary: 'Error', detail: error.message, life: 3000});
             }
         },
         async update(){
             try {
+                this.loading = true
                 const {data} = await api.put('api/siswa/'+this.dataSiswa.id, this.dataSiswa)
                 if(!data.status) throw new Error(data.message)
                 this.$toast.add({severity:'success', summary: 'Success', detail: data.message, life: 3000});
                 this.getSiswa()
                 this.dialEdit = false
+                this.loading = false
             } catch (error) {
-                console.log(error)
+                this.loading = false
                 this.$toast.add({severity:'error', summary: 'Error', detail: error.message, life: 3000});
             }
         },
         async getSiswa(){
             try {
+                this.loading = true
                 const siswa = await api.get(`api/siswa`)
                 if(!siswa.data.status) throw new Error(siswa.message)
                 this.data = siswa.data.data
+                this.loading = false
             } catch (error) {
+                this.loading = false
                 this.$toast.add({severity:'error', summary: 'Error', detail: error.message, life: 3000});
             }
         },
         async deleteSiswa(id){
             try {
+                this.loading = true
                 const siswa = await api.delete(`api/siswa/${id}`)
                 if(!siswa.data.status) throw new Error(siswa.message)
                 this.$toast.add({severity:'success', summary: 'Success', detail: siswa.data.message, life: 3000});
                 this.getSiswa()
+                this.loading = false
             } catch (error) {
-                console.log(error)
+                this.loading = false
                 this.$toast.add({severity:'error', summary: 'Error', detail: error.message, life: 3000});
             }
         }

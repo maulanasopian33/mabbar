@@ -1,5 +1,5 @@
 <template>
-    <baseLayout>
+    <baseLayout :loading="loading">
         <Dialog v-model:visible="dialAdd" modal header="Tambahkan Setoran" :style="{ width: '25rem' }">
             <span class="text-surface-500 dark:text-surface-400 block mb-8">Silahkan tambahkan data setoran</span>
             <div class="flex items-center gap-4 mb-4">
@@ -41,9 +41,9 @@
         </div>
         <div class="mt-10">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
-                <Card @click="openSetoran(item)" v-for="(item, index) in paginatedData" :key="index" class="hover:bg-primary-100/60">
+                <Card v-for="(item, index) in paginatedData" :key="index" class="hover:bg-primary-100/60">
                     <template #content>
-                        <div class="flex gap-4 mt-2 justify-between">
+                        <div class="flex gap-4 mt-2 justify-between" @click="openSetoran(item)">
                             <div>
                                 <p class="font-semibold text-xl capitalize">{{ item.tema }}</p>
                                 <p class="text-sm capitalize">{{ item.deskripsi }}</p>
@@ -79,6 +79,7 @@ export default {
             dialEdit : false,
             first : 0,
             rows : 14,
+            loading : false
         }
     },
     computed: {
@@ -110,6 +111,7 @@ export default {
         },
         async save(){
             try {
+                this.loading = true
                 const params = {
                     tema : this.dataSetoran.tema,
                     deskripsi : this.dataSetoran.deskripsi
@@ -119,38 +121,48 @@ export default {
                 this.$toast.add({severity:'success', summary: 'Success', detail: data.message, life: 3000});
                 this.getSetoran()
                 this.dialAdd = false
+                this.loading = false
             } catch (error) {
+                this.loading = false
                 this.$toast.add({severity:'error', summary: 'Error', detail: error.message, life: 3000});
             }
         },
         async update(){
             try {
+                this.loading = true
                 const {data} = await api.put('api/setoran/'+this.dataSetoran.id_setoran, this.dataSetoran)
                 if(!data.status) throw new Error(data.message)
                 this.$toast.add({severity:'success', summary: 'Success', detail: data.message, life: 3000});
                 this.getSetoran()
                 this.dialEdit = false
+                this.loading = false
             } catch (error) {
-                console.log(error)
+                this.loading = false
                 this.$toast.add({severity:'error', summary: 'Error', detail: error.message, life: 3000});
             }
         },
         async getSetoran(){
             try {
+                this.loading = true
                 const Setoran = await api.get(`api/setoran`)
                 if(!Setoran.data.status) throw new Error(Setoran.message)
                 this.data = Setoran.data.data
+                this.loading = false
             } catch (error) {
+                this.loading = false
                 this.$toast.add({severity:'error', summary: 'Error', detail: error.message, life: 3000});
             }
         },
         async deleteSetoran(id){
             try {
+                this.loading = true
                 const Setoran = await api.delete(`api/setoran/${id}`)
                 if(!Setoran.data.status) throw new Error(Setoran.message)
                 this.$toast.add({severity:'success', summary: 'Success', detail: Setoran.data.message, life: 3000});
                 this.getSetoran()
+                this.loading = false
             } catch (error) {
+                this.loading = false
                 this.$toast.add({severity:'error', summary: 'Error', detail: error.message, life: 3000});
             }
         }

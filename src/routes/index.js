@@ -26,6 +26,11 @@ import ItemSetoran from '../pages/guru/itemSetoran.vue';
 import guruLatihan from '../pages/guru/latihan.vue';
 import guruSoalPG from '../pages/guru/soal-pg.vue';
 import guruSoalPGAdd from '../pages/guru/soal-pgAdd.vue';
+import guruPenilaianLatihan from '../pages/guru/listPenilaian.vue';
+import guruPenilaianSetoran from '../pages/guru/listPenilaian-Setoran.vue';
+import gurunilaiPenilaianLatihan from '../pages/guru/nilaiPenilaian-latihan.vue';
+import gurunilaiPenilaianSetoran from '../pages/guru/penilaian-setoran.vue';
+
 const routes = [
   {
     path: '/',
@@ -201,6 +206,38 @@ const routes = [
     path: '/guru/latihan/pilihan-ganda/add/:id',
     name: 'guruSoalPGAdd',
     component: guruSoalPGAdd,
+    meta: {
+      middleware: [guruAuth]
+    }
+  },
+  {
+    path: '/guru/penilaian/latihan',
+    name: 'penilaianLatihan',
+    component: guruPenilaianLatihan,
+    meta: {
+      middleware: [guruAuth]
+    }
+  },
+  {
+    path: '/guru/penilaian/latihan/:id',
+    name: 'nilaipenilaianLatihan',
+    component: gurunilaiPenilaianLatihan,
+    meta: {
+      middleware: [guruAuth]
+    }
+  },
+  {
+    path: '/guru/penilaian/setoran',
+    name: 'penilaianSetoran',
+    component: guruPenilaianSetoran,
+    meta: {
+      middleware: [guruAuth]
+    }
+  },
+  {
+    path: '/guru/penilaian/setoran/:id',
+    name: 'nilaipenilaianSetoran',
+    component: gurunilaiPenilaianSetoran,
     meta: {
       middleware: [guruAuth]
     }
