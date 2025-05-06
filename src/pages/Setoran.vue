@@ -5,6 +5,21 @@
                 <i class="pi pi-spin pi-spinner text-bold text-5xl text-primary-500"></i>
             </template>
         </Dialog>
+        <Dialog v-model:visible="showSiswa" modal :header="'Peringkat '+ detailSiswa.rangking" class="w-[90%]">
+            <span class="text-surface-500 dark:text-surface-400 block mb-4">Detail Siswa.</span>
+            <div class="flex items-center gap-4 mb-2">
+                <label for="nama" class="font-semibold w-24">Nama</label>
+                <InputText id="nama" disabled class="flex-auto" v-model="detailSiswa.nama" autocomplete="off" />
+            </div>
+            <div class="flex items-center gap-4 mb-2">
+                <label for="rangking" class="font-semibold w-24">Peringkat</label>
+                <InputText id="rangking" disabled class="flex-auto" v-model="detailSiswa.rangking" autocomplete="off" />
+            </div>
+            <div class="flex items-center gap-4 mb-2">
+                <label for="jumlah" class="font-semibold w-24">Jumlah Setoran</label>
+                <InputText id="jumlah" disabled class="flex-auto" v-model="detailSiswa.jumlah" autocomplete="off" />
+            </div>
+        </Dialog>
         <div class="bg-[url('/assets/bg.svg')] w-full h-full p-6 flex flex-col items-center">
             <div class="w-full md:bg-white/10 md:w-[80%] lg:w-[60%] md:border-2 border-primary-500 rounded-lg md:p-5 md:h-screen">
                 <div @click="kembali()"
@@ -13,16 +28,16 @@
                     <p>Kembali</p>
                 </div>
                 <div class="grid grid-cols-3 gap-3">
-                    <div class="bg-primary-500/60 text-white rounded-md flex flex-col items-center p-4 h-36">
-                        <h3 class="text-4xl text-black bg-white rounded-full p-3 font-semibold w-[70px] text-center">{{ rangking[2]?.nama || '?' }}</h3>
+                    <div class="bg-primary-500/60 text-white rounded-md flex flex-col items-center p-4 h-36" @click="rangkingSiswa(rangking[2])">
+                        <h3 class="text-4xl text-black bg-white rounded-full p-3 font-semibold w-[70px] text-center">{{ convertnama(rangking[2]?.nama) || '?' }}</h3>
                         <p class="text-3xl mt-2">3</p>
                     </div>
-                    <div class="bg-primary-500 text-white rounded-md flex flex-col items-center p-4 mt-5 h-36">
-                        <h3 class="text-4xl text-black bg-white rounded-full p-3 font-semibold w-[70px] text-center">{{ rangking[0]?.nama || '?' }}</h3>
+                    <div class="bg-primary-500 text-white rounded-md flex flex-col items-center p-4 mt-5 h-36" @click="rangkingSiswa(rangking[0])">
+                        <h3 class="text-4xl text-black bg-white rounded-full p-3 font-semibold w-[70px] text-center">{{ convertnama(rangking[0]?.nama) || '?' }}</h3>
                         <p class="text-3xl mt-2">1</p>
                     </div>
-                    <div class="bg-primary-500/60 text-white rounded-md flex flex-col items-center p-4 h-36">
-                        <h3 class="text-4xl text-black bg-white rounded-full p-3 font-semibold w-[70px] text-center">{{ rangking[1]?.nama || '?' }}</h3>
+                    <div class="bg-primary-500/60 text-white rounded-md flex flex-col items-center p-4 h-36" @click="rangkingSiswa(rangking[1])">
+                        <h3 class="text-4xl text-black bg-white rounded-full p-3 font-semibold w-[70px] text-center">{{ convertnama(rangking[1]?.nama) || '?' }}</h3>
                         <p class="text-3xl mt-2">2</p>
                     </div>
                     
@@ -55,7 +70,9 @@ export default {
             rangking : [],
             first : 0,
             rows : 14,
-            loading : false
+            loading : false,
+            showSiswa : false,
+            detailSiswa : {}
         }
     },
     computed: {
@@ -68,6 +85,10 @@ export default {
         this.getRangking()
     },
     methods: {
+        rangkingSiswa(item) {
+            this.showSiswa = true
+            this.detailSiswa = item
+        },
         kembali() {
             this.$router.push({
                 name: 'Home'
@@ -100,17 +121,16 @@ export default {
             try {
                 const Rangking = await api.get(`api/penilaian-setoran/get-rangking`)
                 if(!Rangking.data.status) throw new Error(Rangking.message)
-                this.rangking = Rangking.data.data.map((item) => {
-                    return {
-                        nama : item.nama.split(" ")
-                                .map((word) => word.charAt(0).toUpperCase())
-                                .join("")
-                    }
-                })
+                this.rangking = Rangking.data.data
             } catch (error) {
                 this.$toast.add({severity:'error', summary: 'Error', detail: error.message, life: 3000});
             }
         },
+        convertnama(nama) {
+            return nama?.split(" ")
+                                .map((word) => word.charAt(0).toUpperCase())
+                                .join("")
+        }
     },
 }
 </script>

@@ -24,7 +24,7 @@
                         <img src="/assets/icon/ic_setoran.svg" class="w-[40%] my-3"></img>
                         <p class="text-center text-xl">Setoran</p>
                     </div>
-                    <div class="bg-primary-500 hover:bg-primary-200 w-full text-white p-5 md:py-10 rounded-lg flex flex-col justify-center items-center">
+                    <div @click="goToPenilaian()" class="bg-primary-500 hover:bg-primary-200 w-full text-white p-5 md:py-10 rounded-lg flex flex-col justify-center items-center">
                         <img src="/assets/icon/ic_penilaian.svg" class="w-[40%] my-3"></img>
                         <p class="text-center text-xl">Penilaian</p>
                     </div>
@@ -62,6 +62,9 @@ export default {
         },
         goToLatihan(){
             this.$router.push('/latihan')
+        },
+        goToPenilaian(){
+            this.$router.push('/penilaian')
         },
     },
 }

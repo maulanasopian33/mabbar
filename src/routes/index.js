@@ -30,6 +30,7 @@ import guruPenilaianLatihan from '../pages/guru/listPenilaian.vue';
 import guruPenilaianSetoran from '../pages/guru/listPenilaian-Setoran.vue';
 import gurunilaiPenilaianLatihan from '../pages/guru/nilaiPenilaian-latihan.vue';
 import gurunilaiPenilaianSetoran from '../pages/guru/penilaian-setoran.vue';
+import penilaian from '../pages/penilaian.vue';
 
 const routes = [
   {
@@ -113,6 +114,11 @@ const routes = [
     meta: {
       middleware: [siswaAuth]
     }
+  },
+  {
+    path: '/penilaian',
+    name: 'Penilaian',
+    component: penilaian
   },
   // guru
   {

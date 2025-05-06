@@ -5,6 +5,7 @@
                 <TabList>
                     <Tab value="0">Add New</Tab>
                     <Tab value="1">List</Tab>
+                    <Tab value="2">Video Url</Tab>
                 </TabList>
                 <TabPanels>
                     <TabPanel value="0">
@@ -21,6 +22,16 @@
                             <ContextMenu ref="menu" :model="items" />
                         </div>
                         <Paginator v-model:first="first" :rows="rows" :totalRecords="datas.length" template="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink" />
+                    </TabPanel>
+                    <TabPanel value="2">
+                        <div>
+                            <p class="pb-5">Silahkan Masukan Url Youtube</p>
+                            <FloatLabel variant="in">
+                                <InputText id="in_label" v-model="videoyt" size="small" variant="filled" class="w-full" />
+                                <label for="in_label">Url Video</label>
+                            </FloatLabel>
+                            <Button class="mt-3" label="Simpan" @click="addVideo()" />
+                        </div>
                     </TabPanel>
                 </TabPanels>
             </Tabs>
@@ -41,6 +52,7 @@ export default {
             token : '',
             selectedimg : null,
             profile : { id : 0},
+            videoyt : '',
             first : 0,
             rows : 15,
             items: [
@@ -78,11 +90,14 @@ export default {
         }
     },
     methods: {
+        addVideo() {
+            this.selectImg({path : this.videoyt})
+            this.videoyt = ''
+        },
         async getdata() {
             const {data} = await api.get('api/media/get/'+ this.token)
             if(data.status) {
                 this.datas = data.data
-                console.log(data)
             }
         },
         onRightClick(event, item) {
@@ -95,7 +110,6 @@ export default {
             // window.open('http://localhost:3000/'+item.path, '_blank');
         },
         onAdvancedUpload(event) {
-            console.log(event)
             this.getdata()
         }
     }

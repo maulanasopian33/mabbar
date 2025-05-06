@@ -14,7 +14,10 @@
                         <img :src="url+data?.featureimage" class="mt-5" alt="" srcset="">
                         <div class="text-justify content-materi" v-html="data.content"></div>
                         <div class="grid grid-cols-1 gap-5 mt-5">
-                            <Image preview v-for="(item, index) in data?.listlampirans" :key="index" :src="url+item.file"/>
+                            <div v-for="(item, index) in data?.listlampirans" :key="index">
+                                <Image v-show="item.jenis == 'Images'" preview :src="url+item.file"/>
+                                <videoPlayer v-show="item.jenis == 'Youtube'" :videoUrl="item.file"/>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -25,10 +28,14 @@
 
 <script>
 import moment from 'moment/moment';
+import videoPlayer from '../components/VideoPlayer.vue'
 moment.locale('id');
 import api from '../libs/axiosInstance'
 export default {
     name : 'materi',
+    components : {
+        videoPlayer
+    },
     data() {
         return {
             idmateri : '',
@@ -63,7 +70,6 @@ export default {
                 const materi = await api.get(`api/materi/${this.idmateri}`)
                 if (!materi.data.status) throw new Error(materi.message)
                 this.data = materi.data.data
-                console.log(this.data)
             } catch (error) {
                 this.$toast.add({
                     severity: 'error',

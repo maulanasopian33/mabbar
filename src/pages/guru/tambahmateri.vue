@@ -22,9 +22,14 @@
             <Editor v-model="data.content" editorStyle="height: 320px" class="mt-5 md:mt-0" />
             <div class="grid grid-cols-2 md:grid-cols-6 pt-5 gap-2 md:col-span-2">
                 <div @click="openMedia('lampiran')" class="w-full h-36 md:h-48 border border-slate-500 border-dashed rounded-md flex justify-center items-center">
-                    <i class="pi pi-image"></i>
+                    <i class="pi pi-paperclip"></i>
                 </div>
-                <img class="w-full h-36 md:h-48 object-cover" :src="url+item.path" @click="deleteLampiran(index)" v-for="(item, index) in lampiran" :key="index"/>
+                <div v-for="(item, index) in lampiran" :key="index">
+                    <div @click="deleteLampiran(index)" v-show="item.type == 'Youtube'" class="w-full h-36 md:h-48 border border-slate-500 border-dashed rounded-md flex flex-col justify-center items-center">
+                        <img :src="thumbnailUrl(item.path)" alt="">
+                    </div>
+                    <img v-show="item.type == 'Images'" class="w-full h-36 md:h-48 object-cover" :src="url+item.path" @click="deleteLampiran(index)"/>
+                </div>
             </div>
             <Button @click="save()" label="Simpan" class="mt-5 w-full text-xl md:col-span-2" />
         </div>
@@ -34,12 +39,13 @@
 
 <script>
 import baseLayout from '../../components/baseLayout.vue';
+import VideoPlayer from '../../components/VideoPlayer.vue';
 import Filemanager from '../../components/filemanager.vue'
 import api from '../../libs/axiosInstance.js'
 export default {
     name : "tambah",
     components : {
-        baseLayout
+        baseLayout, VideoPlayer
     },
     components: {
         Filemanager
@@ -67,6 +73,7 @@ export default {
     watch : {
         selectedImg(value){
             if(value !== ''){
+                console.log(value)
                 if(this.tujuanMedia == 'lampiran'){
                     this.pushLampiran(value)
                 }
@@ -78,6 +85,12 @@ export default {
         }
     },
     methods: {
+        thumbnailUrl(url) {
+            const match = url.match(
+                /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/))([a-zA-Z0-9_-]+)/
+            );
+            return match ? `https://img.youtube.com/vi/${match[1]}/maxresdefault.jpg` : "";
+        },
         deleteLampiran(index){
             this.lampiran.splice(index, 1)
         },
@@ -95,9 +108,13 @@ export default {
         },
         pushLampiran(value){
             this.lampiran.push({
-                path : value
+                path : value,
+                type : this.isYouTubeUrl(value) ? 'Youtube' : 'Images'
             })
-            console.log(this.lampiran)
+        },
+        isYouTubeUrl(url) {
+            const pattern = /^(https?:\/\/)?(www\.)?(youtube\.com\/(watch\?v=|embed\/|v\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/;
+            return pattern.test(url);
         },
         imgSelected(value) {
             this.selectedImg = value
